@@ -6,17 +6,18 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setMensaje("");
+    
     const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) setMensaje("Error al iniciar sesión: " + error.message);
-    else setMensaje("Inicio de sesión exitoso ✅");
-  };
-
-  const handleLoginGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({ provider: "google" });
-    if (error) setMensaje("Error Google: " + error.message);
+    if (error) setMensaje("Error: " + error.message);
+    else setMensaje("¡Inicio de sesión exitoso! ✅");
+    
+    setLoading(false);
   };
 
   return (
@@ -29,6 +30,7 @@ const Login = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          disabled={loading}
         />
         <input
           type="password"
@@ -36,13 +38,27 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          disabled={loading}
         />
-        <button type="submit">Entrar</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Iniciando sesión..." : "Entrar"}
+        </button>
       </form>
-      <button onClick={handleLoginGoogle} className="google-btn">
+      
+      {/* Botón de Google comentado temporalmente */}
+      {/*
+      <button onClick={handleLoginGoogle} className="google-btn" disabled={loading}>
         Iniciar con Google
       </button>
-      <p>{mensaje}</p>
+      */}
+      
+      <div className="auth-features">
+        <p>🔐 Autenticación segura con Supabase</p>
+        <p>⚡ Inicio de sesión rápido</p>
+        <p>🎯 Acceso inmediato a tu cuenta</p>
+      </div>
+      
+      {mensaje && <p className={mensaje.includes("Error") ? "error-message" : "success-message"}>{mensaje}</p>}
     </div>
   );
 };

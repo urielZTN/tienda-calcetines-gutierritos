@@ -654,3 +654,29 @@ body {
     padding: 10px 16px;
   }
 }
+
+/* Estilos para mensajes de auth */
+.success-message {
+  color: #178b62;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.error-message {
+  color: #a63d3d;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.auth-features {
+  margin-top: 15px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.auth-features p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #f4f4f8;
+}
